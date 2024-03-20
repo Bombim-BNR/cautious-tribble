@@ -15,9 +15,6 @@ namespace DemoUkraineWins
         public Button Button { get; set; }
         public List<City> Connections = new List<City>();
 
-        //commennnt
-        //commennnt2
-
         
         public bool CanAttack()
         {
