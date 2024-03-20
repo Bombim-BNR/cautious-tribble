@@ -35,19 +35,20 @@ namespace BNR_GAMEPLAY
 
         public void Turn()
         {
-            Commands command = CurrentGame.Adapter.GetCommand();
             City city = CurrentGame.Adapter.GetCurrentCity();
-            City city2 = CurrentGame.Adapter.GetSecondaryCity();
+            Commands command = CurrentGame.Adapter.GetCommand();
             switch (command)
             {
-                case Commands.ATTACK:
-                    city.Attack(city2);
-                    break;
                 case Commands.MOBILIZE:
                     city.Mobilize();
                     break;
+                case Commands.ATTACK:
+                    City cityVictim = CurrentGame.Adapter.GetVictimCity();
+                    city.Attack(cityVictim);
+                    break;
                 case Commands.TRANSPORT:
-                    city.Transport(city2);
+                    City cityReciever = CurrentGame.Adapter.GetRecieverCity();
+                    city.Transport(cityReciever);
                     break;
             }
         }

@@ -21,8 +21,8 @@ namespace BNR_GAMEPLAY
         public Player? Winner()
         {
             foreach (Player player in Players)
-            { 
-                int count = ((List<City>)(Cities.Where(city => city.Owner == player))).Count;
+            {
+                int count = Cities.Where(city => city.Owner == player).ToList().Count;
                 if (count == Cities.Count)
                 {
                     return player;
@@ -30,6 +30,7 @@ namespace BNR_GAMEPLAY
             }
             return null;
         }
+
 
         public Game(List<City> cities, List<Player> players, Adapter Adapter)
         {
@@ -56,7 +57,12 @@ namespace BNR_GAMEPLAY
         {
             bool isRunning = true;
             while (isRunning)
-            { 
+            {
+                foreach (City city in Cities)
+                    city.RandomPopulationGrowth();
+
+                Adapter.UpdateMap();
+
                 CurrentPlayer.Turn();
                 if (Winner() != null)
                     isRunning = false;

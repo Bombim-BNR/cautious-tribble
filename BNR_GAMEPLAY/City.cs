@@ -6,6 +6,8 @@ namespace BNR_GAMEPLAY
     {
         private const int EXP_PER_OCCUPATION = 500;
         private const int EXP_PER_ATTACK = 250;
+        private const int MOBILIZATION_COUNT = 3;
+        private const int MINIMUM_POPULATION_REMAIN = 20;
 
         public int Army {  get; set; }
         public int Population { get; set; }
@@ -13,7 +15,7 @@ namespace BNR_GAMEPLAY
         private int playerIndexToGive;
         public Level CurrentLevel { get; set; }
         public Player Owner { get; set; }
-
+        private int mobilizationCount = MOBILIZATION_COUNT;
         private List<City> connectedCities;
 
         public City(int army, int population, string name, Level level, int playerindextogive,List<City> connectedCities) 
@@ -31,10 +33,20 @@ namespace BNR_GAMEPLAY
             Owner = players[playerIndexToGive];
         }
 
+        public void RandomPopulationGrowth()
+        {
+            Random random = new Random();
+            if (random.Next(0, 2) == 0)
+            {
+                Population += random.Next(0, 10 * CurrentLevel.Value);
+            }
+        }
+
         public void Mobilize()
         {
-            Army += Population / 2;
-            Population -= Population / 2;
+            int amount = Population - ((MINIMUM_POPULATION_REMAIN + Population) / 2);
+            Army += amount;
+            Population -= amount;
         }
 
         public void Attack(City victim)
@@ -71,7 +83,7 @@ namespace BNR_GAMEPLAY
 
         public bool CanMobilize()
         {
-            return Population > 1;
+            return mobilizationCount > 0;
         }
 
         public bool CanAttack(City victim)
@@ -84,6 +96,9 @@ namespace BNR_GAMEPLAY
             return connectedCities.Contains(reciever);
         }
 
-
+        public override string ToString()
+        {
+            return $"{Owner.Name} - {Name} => ARM: {Army} | POP: {Population} | LVL: {CurrentLevel.Value}";
+        }
     }
 }
