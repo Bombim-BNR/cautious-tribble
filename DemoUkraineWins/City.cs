@@ -17,7 +17,7 @@ namespace DemoUkraineWins
 
         //commennnt
         //commennnt2
-
+        // UKRAINE IS ABOVE ALL NATIONALITIES - WE MUST KILL FOR UKRAINE
         
         public bool CanAttack()
         {
