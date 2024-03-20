@@ -14,13 +14,16 @@ namespace BNR_GAMEPLAY
         public Level CurrentLevel { get; set; }
         public Player Owner { get; set; }
 
-        public City(int army, int population, string name, Level level, int playerindextogive) 
+        private List<City> connectedCities;
+
+        public City(int army, int population, string name, Level level, int playerindextogive,List<City> connectedCities) 
         { 
             Army = army;
             Population = population;
             Name = name;
             CurrentLevel = level;
             playerIndexToGive = playerindextogive;
+            this.connectedCities = connectedCities;
         }
 
         public void AcceptThePlayer(List<Player> players)
@@ -60,5 +63,27 @@ namespace BNR_GAMEPLAY
             Army -= force;
             reciever.Army += force;
         }
+
+        public void Connect(City city)
+        {
+            connectedCities.Add(city);
+        }
+
+        public bool CanMobilize()
+        {
+            return Population > 1;
+        }
+
+        public bool CanAttack(City victim)
+        {
+            return connectedCities.Contains(victim);
+        }
+
+        public bool CanTransport(City reciever)
+        {
+            return connectedCities.Contains(reciever);
+        }
+
+
     }
 }
