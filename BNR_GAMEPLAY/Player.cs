@@ -33,24 +33,29 @@ namespace BNR_GAMEPLAY
             CurrentGame = game;
         }
 
-        public void Turn()
+        public string Turn()
         {
+            string move = "";
             City city = CurrentGame.Adapter.GetCurrentCity();
+            move += city.Name + "|";
             Commands command = CurrentGame.Adapter.GetCommand();
             switch (command)
             {
                 case Commands.MOBILIZE:
-                    city.Mobilize();
+                    move += "0";
                     break;
                 case Commands.ATTACK:
                     City cityVictim = CurrentGame.Adapter.GetVictimCity();
-                    city.Attack(cityVictim);
+                    move += "1|";
+                    move += cityVictim.ToString();
                     break;
                 case Commands.TRANSPORT:
                     City cityReciever = CurrentGame.Adapter.GetRecieverCity();
-                    city.Transport(cityReciever);
+                    move += "2|";
+                    move += cityReciever.ToString();
                     break;
             }
+            return move;
         }
     }
 }

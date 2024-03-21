@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Net.Security;
 
 
 namespace BNR_GAMEPLAY
 {
     public class Game
     {
-        // CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();  // Реализация на потом (to do)
         public List<City> Cities {  get; set; }
         public List<Player> Players {  get; set; }
         public int CurrentPlayerIndex;
@@ -53,6 +53,33 @@ namespace BNR_GAMEPLAY
 
         }
 
+        public City SelectCityWithName(string name)
+        {
+            return Cities.FirstOrDefault(city => city.Name == name);
+        }
+
+        public void GetMove(string move)
+        {
+            string[] tokens = move.Split("|");
+            if (tokens[1] == "0")
+            {
+                SelectCityWithName(tokens[0]).Mobilize();
+            }
+            else if (tokens[1] == "1")
+            {
+                SelectCityWithName(tokens[0]).Attack(SelectCityWithName(tokens[2]));
+            }
+            else if (tokens[1] == "2")
+            {
+                SelectCityWithName(tokens[0]).Transport(SelectCityWithName(tokens[2]));
+            }
+        }
+
+        public void SendMove(string move)
+        {
+
+        }
+
         public Player? MainLoop()
         {
             bool isRunning = true;
@@ -63,7 +90,8 @@ namespace BNR_GAMEPLAY
 
                 Adapter.UpdateMap();
 
-                CurrentPlayer.Turn();
+                string move = CurrentPlayer.Turn();
+
                 if (Winner() != null)
                     isRunning = false;
 
