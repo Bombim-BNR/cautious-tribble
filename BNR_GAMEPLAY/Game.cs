@@ -16,6 +16,17 @@ namespace BNR_GAMEPLAY
             {
                 return Players[CurrentPlayerIndex];
             }
+            set
+            {
+                for(int i = 0; i < Players.Count; i++)
+                {
+                    if (Players[i] == value)
+                    {
+                        CurrentPlayerIndex = i;
+                        break;
+                    }
+                }
+            }
         }
 
         public Player? Winner()
@@ -47,10 +58,9 @@ namespace BNR_GAMEPLAY
             CurrentPlayerIndex = 0;
         }
 
-        public void NextTurn()
+        public async Task NextTurn()
         {
             CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Count;
-
         }
 
         public City SelectCityWithName(string name)
@@ -58,28 +68,38 @@ namespace BNR_GAMEPLAY
             return Cities.FirstOrDefault(city => city.Name == name);
         }
 
-        public void GetMove(string move)
+        public async Task GetMove(string move)
         {
             string[] tokens = move.Split("|");
-            if (tokens[1] == "0")
+            if (tokens[1] == "mob")
             {
                 SelectCityWithName(tokens[0]).Mobilize();
             }
-            else if (tokens[1] == "1")
+            else if (tokens[1] == "att")
             {
                 SelectCityWithName(tokens[0]).Attack(SelectCityWithName(tokens[2]));
             }
-            else if (tokens[1] == "2")
+            else if (tokens[1] == "tra")
             {
                 SelectCityWithName(tokens[0]).Transport(SelectCityWithName(tokens[2]));
             }
+            await Adapter.UpdateMapNYT();
         }
 
-        public void SendMove(string move)
+        public async Task<string> TurnAsync()
         {
+            await Adapter.UpdateMap();
+            string move = "";
 
+            if (Adapter.MyPlayer.Equals(CurrentPlayer))
+            {
+                move = await CurrentPlayer.Turn();
+            }
+
+            return move;
         }
 
+        /*
         public Player? MainLoop()
         {
             bool isRunning = true;
@@ -99,5 +119,6 @@ namespace BNR_GAMEPLAY
             }
             return Winner();
         }
+        */
     }
 }

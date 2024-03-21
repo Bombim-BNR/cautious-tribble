@@ -15,10 +15,13 @@ namespace BNR_GAMEPLAY
             MyGame = game;
             MyPlayer = player;
         }
-        public abstract Commands GetCommand();
-        public abstract City GetCurrentCity();
-        public abstract City GetVictimCity();
-        public abstract City GetRecieverCity();
-        public abstract void UpdateMap();
+        public abstract Task<Commands> GetCommand();
+        public abstract Task<City> GetCurrentCity();
+        public abstract Task<City> GetVictimCity();
+        public abstract Task<City> GetRecieverCity();
+        public abstract Task UpdateMap();
+        public abstract Task UpdateMapNYT();
+        public abstract Task YouWin();
+        public abstract Task TheEnd();
     }
 }

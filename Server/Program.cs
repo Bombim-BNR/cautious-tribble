@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BNR_GAMEPLAY;
 
 namespace BNR_SERVER
 {
     public class Program
     {
-        static public void Main(string[] args)
+        static public async Task Main(string[] args)
         {
             Server the_server = new Server();
-            the_server.Start("127.0.0.1", "6069");
-            Console.WriteLine("gogogo");
+            the_server.StartServer(6969, Maps.Default());
+            Console.ReadKey();
+            await the_server.GameLoopAsync();
         }
     }
 }

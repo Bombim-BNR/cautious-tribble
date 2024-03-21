@@ -58,9 +58,29 @@ public class Client
             string move = await _game.TurnAsync();
             return move;
         }
+        else if (message == "next")
+        {
+            await _game.NextTurn();
+            return "+";
+        }
+        else if (message == "check")
+        {
+            await _game.Adapter.UpdateMapNYT();
+            return "+";
+        }
+        else if (message == "win")
+        {
+            await _game.Adapter.YouWin();
+            return "+";
+        }
+        else if (message == "end")
+        {
+            await _game.Adapter.TheEnd();
+            return "+";
+        }
         else
         {
-            await _game.GetMove(message);
+            await _game.GetMove(message+"|"+_game.Players.IndexOf(_game.Adapter.MyPlayer));
             return "+";
         }
     }

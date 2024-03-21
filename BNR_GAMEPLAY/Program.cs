@@ -34,16 +34,7 @@ namespace BNR
             ConsoleInterpretation adapter = new ConsoleInterpretation(game, player1);
             game.Adapter = adapter;
 
-            // Run the game
-            Player winner = game.MainLoop();
-            if (winner != null)
-            {
-                Console.WriteLine($"{winner.Name} wins the game!");
-            }
-            else
-            {
-                Console.WriteLine("No winner.");
-            }
+            
         }
     }
 }
