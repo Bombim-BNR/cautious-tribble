@@ -33,24 +33,29 @@ namespace BNR_GAMEPLAY
             CurrentGame = game;
         }
 
-        public void Turn()
+        public async Task<string> Turn()
         {
-            City city = CurrentGame.Adapter.GetCurrentCity();
-            Commands command = CurrentGame.Adapter.GetCommand();
+            string move = "";
+            City city = await CurrentGame.Adapter.GetCurrentCity();
+            move += city.Name + "|";
+            Commands command = await CurrentGame.Adapter.GetCommand();
             switch (command)
             {
                 case Commands.MOBILIZE:
-                    city.Mobilize();
+                    move += "mob";
                     break;
                 case Commands.ATTACK:
-                    City cityVictim = CurrentGame.Adapter.GetVictimCity();
-                    city.Attack(cityVictim);
+                    City cityVictim = await CurrentGame.Adapter.GetVictimCity();
+                    move += "att|";
+                    move += cityVictim.Name;
                     break;
                 case Commands.TRANSPORT:
-                    City cityReciever = CurrentGame.Adapter.GetRecieverCity();
-                    city.Transport(cityReciever);
+                    City cityReciever = await CurrentGame.Adapter.GetRecieverCity();
+                    move += "tra|";
+                    move += cityReciever.Name;
                     break;
             }
+            return move;
         }
     }
 }

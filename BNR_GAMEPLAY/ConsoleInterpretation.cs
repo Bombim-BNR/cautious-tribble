@@ -48,7 +48,7 @@ namespace BNR_GAMEPLAY
             }
         }
 
-        public override Commands GetCommand()
+        public override async Task<Commands> GetCommand()
         {
             int choice = GetOption(commands);
             switch(choice)
@@ -63,42 +63,55 @@ namespace BNR_GAMEPLAY
             return Commands.MOBILIZE;
         }
 
-        public override City GetCurrentCity()
+        public override async Task<City> GetCurrentCity()
         {
             CurrentCity = null;
+            
             List<string> list = MyGame.Cities
             .Where(city => city.Owner.Equals(MyPlayer))
             .Select(city => city.ToString())
             .ToList();
 
+            List<City> citylist = MyGame.Cities
+            .Where(city => city.Owner.Equals(MyPlayer))
+            .ToList();
+
             int choice = GetOption(list);
-            CurrentCity = MyGame.Cities[choice];
-            return MyGame.Cities[choice];
+            CurrentCity = citylist[choice];
+            return citylist[choice];
         }
 
-        public override City GetVictimCity()
+        public override async Task<City> GetVictimCity()
         {
             List<string> list = MyGame.Cities
             .Where(city => !city.Owner.Equals(MyPlayer))
             .Select(city => city.ToString())
             .ToList();
 
+            List<City> citylist = MyGame.Cities
+            .Where(city => !city.Owner.Equals(MyPlayer))
+            .ToList();
+
             int choice = GetOption(list);
-            return MyGame.Cities[choice];
+            return citylist[choice];
         }
 
-        public override City GetRecieverCity()
+        public override async Task<City> GetRecieverCity()
         {
             List<string> list = MyGame.Cities
             .Where(city => (city.Owner.Equals(MyPlayer) && !city.Owner.Equals(CurrentCity)))
             .Select(city => city.ToString())
             .ToList();
 
+            List<City> citylist = MyGame.Cities
+            .Where(city => (city.Owner.Equals(MyPlayer) && !city.Owner.Equals(CurrentCity)))
+            .ToList();
+
             int choice = GetOption(list);
-            return MyGame.Cities[choice];
+            return citylist[choice];
         }
 
-        public override void UpdateMap()
+        public override async Task UpdateMap()
         {
             Console.Clear();
 
@@ -117,6 +130,39 @@ namespace BNR_GAMEPLAY
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine($"\n{MyGame.CurrentPlayer.Name}'s Turn!");
+            Console.ReadKey();
+        }
+
+        public override async Task UpdateMapNYT()
+        {
+            Console.Clear();
+
+            int index = 1;
+            foreach (City city in MyGame.Cities)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                if (city.Owner.Equals(MyPlayer))
+                    Console.ForegroundColor = ConsoleColor.Green;
+
+                Console.WriteLine($"{index}. {city.ToString()}");
+                index++;
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine($"\n{MyGame.CurrentPlayer.Name}'s Turn!");
+        }
+
+        public override async Task YouWin()
+        {
+            Console.WriteLine("You win!");
+            Console.ReadKey();
+        }
+
+        public override async Task TheEnd()
+        {
+            Console.WriteLine("The end!");
             Console.ReadKey();
         }
     }
