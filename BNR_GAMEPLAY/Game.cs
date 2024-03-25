@@ -63,14 +63,28 @@ namespace BNR_GAMEPLAY
             CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Count;
         }
 
-        public City SelectCityWithName(string name)
+        public City? SelectCityWithName(string name)
         {
+            if (Cities is null)
+            {
+                throw new InvalidDataException("Cities is empty");
+            }
             return Cities.FirstOrDefault(city => city.Name == name);
         }
 
         public async Task GetMove(string move)
         {
             string[] tokens = move.Split("|");
+            if (SelectCityWithName(tokens[0]) is null)
+            {
+                throw new InvalidDataException($"There is no city named {tokens[0]}");
+            }
+            if (SelectCityWithName(tokens[2]) is null)
+            {
+                throw new InvalidDataException($"There is no city named {tokens[2]}");
+            }
+#pragma warning disable CS8602, CS8604 // nessesary checks were made higher
+
             if (tokens[1] == "mob")
             {
                 SelectCityWithName(tokens[0]).Mobilize();
@@ -83,6 +97,8 @@ namespace BNR_GAMEPLAY
             {
                 SelectCityWithName(tokens[0]).Transport(SelectCityWithName(tokens[2]));
             }
+#pragma warning disable CS8602, CS8604
+
             await Adapter.UpdateMapNYT();
         }
 
