@@ -32,10 +32,13 @@ namespace VisualInterpretation
                 OnClick = (sender, e) => StartTheGame()
             };
 
+            CustomImage Map = new CustomImage(Images.MapIsrael, 0, 0) { Resize = 1.5f, X=0, Y=0};
+
             form.Buttons.Clear();
             form.Buttons.Add(Start);
             form.Buttons.Add(SelectAnother);
             form.Rectangles.Add(BoxPlayers);
+            form.Images.Add(Map);
         }
     }
 }

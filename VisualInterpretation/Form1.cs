@@ -11,6 +11,7 @@ namespace VisualInterpretation
     {
         public List<CustomButton> Buttons = new List<CustomButton>();
         public List<CustomTextbox> Textboxes = new List<CustomTextbox>();
+        public List<CustomImage> Images = new List<CustomImage>();
         public List<ColoredRectangle> Rectangles = new List<ColoredRectangle>();
         public Point mouseLocation;
         public Point mouseClickLocation;
@@ -104,6 +105,10 @@ namespace VisualInterpretation
                 foreach (ColoredRectangle rect in Rectangles)
                 {
                     rect.Draw(e, this);
+                }
+                foreach (CustomImage image in Images)
+                {
+                    image.Draw(e, this);
                 }
             }
             catch

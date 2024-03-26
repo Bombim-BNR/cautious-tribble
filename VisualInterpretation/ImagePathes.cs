@@ -32,5 +32,6 @@ namespace VisualInterpretation
         static public Image Exit = Image.FromFile("..\\..\\..\\data\\images\\EXIT.png");
         static public Image Start = Image.FromFile("..\\..\\..\\data\\images\\START.png");
         static public Image SelectAnother = Image.FromFile("..\\..\\..\\data\\images\\SELECTANOTHER.png");
+        static public Image MapIsrael = Image.FromFile("..\\..\\..\\data\\images\\MapIsrael.png");
     }
 }
