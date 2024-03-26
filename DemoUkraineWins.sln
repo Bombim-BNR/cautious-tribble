@@ -19,8 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BNR_CLIENT", "BNR_CLIENT\BN
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BNR__CLIENT", "BNR__CLIENT\BNR__CLIENT.csproj", "{64F683C2-11B3-49BF-80DF-A5BFD0F9042A}"
+<<<<<<< HEAD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualInterpretation", "VisualInterpretation\VisualInterpretation.csproj", "{2697B053-2E0C-4241-B80D-41681C90BC5E}"
+=======
+>>>>>>> DataStorage
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

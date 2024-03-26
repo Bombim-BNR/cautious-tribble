@@ -6,14 +6,16 @@ namespace BNR
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
+            PlayerRepository playerRepository = new(@"Data Source=.\SQLEXPRESS;Initial Catalog=GameData;Integrated Security=True");
+
             // Initialize levels for cities and players
-            Level cityLevel1 = new Level(1, 0);
-            Level cityLevel2 = new Level(1, 0);
-            Level cityLevel3 = new Level(1, 0);
-            Level playerLevel1 = new Level(1, 0);
-            Level playerLevel2 = new Level(1, 0);
+            Level cityLevel1 = new Level(1000);
+            Level cityLevel2 = new Level(1000);
+            Level cityLevel3 = new Level(1000);
+            Level playerLevel1 = new Level(1000);
+            Level playerLevel2 = new Level(1000);
 
             // Create cities
             City city1 = new City(100, 1000, "Kyiv", cityLevel1, 0, new List<City>());
@@ -22,10 +24,12 @@ namespace BNR
             // Assuming cities can be connected for demonstration
             city1.Connect(city2);
             city2.Connect(city1);
-
+            //await playerRepository.ClearDB();
             // Create players
             Player player1 = new Player(1, "Ukraine", 0, playerLevel1);
             Player player2 = new Player(2, "RF", 0, playerLevel2);
+            await playerRepository.SavePlayer(player1, "anton", "123456");
+            var testPlayer = await playerRepository.LoadPlayer("anton", "123456");
 
             // Temporarily create the game without setting the adapter
             Game game = new Game(new List<City> { city1, city2, city3 }, new List<Player> { player1, player2 }, null);

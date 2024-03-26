@@ -11,14 +11,8 @@ namespace BNR_GAMEPLAY
         public int Score { get; set; }
         public Level CurrentLevel { get; set; }
 
-        private Game CurrentGame;
-        public List<City> AvaibleCities
-        {
-            get
-            {
-                return (List<City>)(CurrentGame.Cities.Where(city => city.Owner.Equals(this)));
-            }
-        }
+        private Game? CurrentGame;
+        public List<City>? AvaibleCities => CurrentGame?.Cities.Where(city => city.Owner.Equals(this)) as List<City>;
 
         public Player(int id, string name, int score, Level level)
         {
@@ -36,6 +30,10 @@ namespace BNR_GAMEPLAY
         public async Task<string> Turn()
         {
             string move = "";
+            if(CurrentGame is null) 
+            {
+                throw new InvalidDataException("Current Game is Empty");
+            }
             City city = await CurrentGame.Adapter.GetCurrentCity();
             move += city.Name + "|";
             Commands command = await CurrentGame.Adapter.GetCommand();
