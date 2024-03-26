@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BNR_GAMEPLAY;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +9,50 @@ namespace VisualInterpretation
 {
     public class SignUp : Stage
     {
-        public void SignInNewUser()
+        CustomTextbox name;
+        CustomTextbox password;
+        public async void SignInNewUser()
         {
+            try
+            {
+                Random random = new Random();
 
+                PlayerRepository playerRepository = new PlayerRepository(@"Data Source=DESKTOPART;Initial Catalog=GameData;Integrated Security=True");
+
+                Player player = new Player(random.Next(100000000), "", 0, new Level(1));
+
+                if (await playerRepository.DoesUserExist(name.TextBox.Text))
+                {
+                    throw new Exception("User exists. Change login.");
+                }
+                else
+                {
+                    await playerRepository.SavePlayer(player, name.TextBox.Text, password.TextBox.Text);
+                    form.player = await playerRepository.LoadPlayer(name.TextBox.Text, password.TextBox.Text);
+                    form.StageLoad(Stages.MAIN_MENU);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error has occured. Try again.");
+            }
         }
         public void Build()
         {
-            form.Textboxes.Add(new CustomTextbox(ScreenResolution.Width / 2, ScreenResolution.Height-250, 800, form));
+            name = new CustomTextbox(ScreenResolution.Width / 2, ScreenResolution.Height-250, 800, form);
 
-            form.Textboxes.Add(new CustomTextbox(ScreenResolution.Width / 2, ScreenResolution.Height - 50, 800, form));
-            
-            List<CustomButton> Buttons = new List<CustomButton>()
+            password = new CustomTextbox(ScreenResolution.Width / 2, ScreenResolution.Height - 50, 800, form);
+            password.TextBox.PasswordChar = '*';
+
+            CustomButton SignUp = new CustomButton(Images.SignUp, ScreenResolution.Width/2, ScreenResolution.Height/2+180)
             {
-                new CustomButton(Images.SignUp, ScreenResolution.Width/2, ScreenResolution.Height/2+180) {OnClick = (sender, e) => SignInNewUser()}
+                OnClick = (sender, e) => SignInNewUser()
             };
+
             form.Buttons.Clear();
-            form.Buttons = Buttons;
+            form.Buttons.Add(SignUp);
+            form.Textboxes.Add(name);
+            form.Textboxes.Add(password);
         }
     }
 }

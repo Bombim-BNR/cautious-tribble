@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BNR_GAMEPLAY;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,33 +9,54 @@ namespace VisualInterpretation
 {
     public class LogIn : Stage
     {
-        public void LogInCreatedUser()
+        CustomTextbox name;
+        CustomTextbox password;
+        public async void LogInCreatedUserAsync()
         {
+            try
+            {
+                PlayerRepository playerRepository = new PlayerRepository(@"Data Source=DESKTOPART;Initial Catalog=GameData;Integrated Security=True");
 
+                Player player = new Player(0, "", 0, new Level(1));
+
+                if (await playerRepository.DoesUserExist(name.TextBox.Text))
+                {
+                    try
+                    {
+                        form.player = await playerRepository.LoadPlayer(name.TextBox.Text, password.TextBox.Text);
+                        form.StageLoad(Stages.MAIN_MENU);
+                    }
+                    catch
+                    {
+                        throw new Exception("Incorrecta da passworde.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("User does not exists. Change login.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         public void Build()
         {
-            TextBox name = new TextBox();
-            name.Location = new Point(ScreenResolution.Width / 2 - 400, ScreenResolution.Height / 2 - 250);
-            name.Size = new Size(800, 200);
-            name.Font = new Font(FontFamily.GenericSansSerif, 45);
-            name.PlaceholderText = "your name here";
+            name = new CustomTextbox(ScreenResolution.Width / 2, ScreenResolution.Height - 250, 800, form);
 
-            TextBox password = new TextBox();
-            password.Location = new Point(ScreenResolution.Width / 2 - 400, ScreenResolution.Height / 2 - 50);
-            password.Size = new Size(800, 200);
-            password.Font = new Font(FontFamily.GenericSansSerif, 45);
-            password.PlaceholderText = "your password here";
-            password.PasswordChar = '*';
+            password = new CustomTextbox(ScreenResolution.Width / 2, ScreenResolution.Height - 50, 800, form);
+            password.TextBox.PasswordChar = '*';
 
-            form.Controls.Add(name);
-            form.Controls.Add(password);
-            List<CustomButton> Buttons = new List<CustomButton>()
+            CustomButton SignUp = new CustomButton(Images.Login, ScreenResolution.Width / 2, ScreenResolution.Height / 2 + 180)
             {
-                new CustomButton(Images.Login, ScreenResolution.Width/2, ScreenResolution.Height/2+180) {OnClick = (sender, e) => LogInCreatedUser()}
+                OnClick = (sender, e) => LogInCreatedUserAsync()
             };
+
             form.Buttons.Clear();
-            form.Buttons = Buttons;
+            form.Buttons.Add(SignUp);
+            form.Textboxes.Add(name);
+            form.Textboxes.Add(password);
         }
     }
 }

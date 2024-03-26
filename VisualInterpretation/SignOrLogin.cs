@@ -18,14 +18,21 @@ namespace VisualInterpretation
         }
         public void Build()
         {
-            List<CustomButton> ObjectsToAdd = new List<CustomButton>()
+            CustomButton SignUpButton = new CustomButton(Images.SignUp, ScreenResolution.Width / 2, ScreenResolution.Height / 2 + 100)
             {
-                new CustomButton(Images.SignUp, ScreenResolution.Width/2, ScreenResolution.Height/2+100) {OnClick = (sender, e) => OpenSignUp()},
-                new CustomButton(Images.Login, ScreenResolution.Width/2, ScreenResolution.Height/2-100) {OnClick = (sender, e) => OpenLogIn()}
+                OnClick = (sender, e) => OpenSignUp()
             };
+
+
+            CustomButton LoginButton = new CustomButton(Images.Login, ScreenResolution.Width / 2, ScreenResolution.Height / 2 - 100)
+            {
+                OnClick = (sender, e) => OpenLogIn()
+            };
+            
             form.Background = Images.Background;
             form.Buttons.Clear();
-            form.Buttons = ObjectsToAdd;
+            form.Buttons.Add(SignUpButton);
+            form.Buttons.Add(LoginButton);
         }
     }
 }

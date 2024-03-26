@@ -44,7 +44,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1158, 709);
             DoubleBuffered = true;
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;

@@ -10,11 +10,11 @@ namespace BNR_GAMEPLAY
     {
         static public Game Default()
         {
-            Level cityLevel1 = new Level(1, 0);
-            Level cityLevel2 = new Level(1, 0);
-            Level cityLevel3 = new Level(1, 0);
-            Level playerLevel1 = new Level(1, 0);
-            Level playerLevel2 = new Level(1, 0);
+            Level cityLevel1 = new Level(1);
+            Level cityLevel2 = new Level(1);
+            Level cityLevel3 = new Level(1);
+            Level playerLevel1 = new Level(1);
+            Level playerLevel2 = new Level(1);
 
             City city1 = new City(100, 1000, "Kyiv", cityLevel1, 0, new List<City>());
             City city2 = new City(150, 1500, "Kharkiv", cityLevel2, 0, new List<City>());

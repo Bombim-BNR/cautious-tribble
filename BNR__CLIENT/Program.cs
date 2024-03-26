@@ -15,6 +15,8 @@ namespace BNR_CLIENT
             Game game = Maps.Default();
 
             Client client = new Client();
+            
+            /*
             Console.Write("Which one you want to be? (1, 2) => ");
             string choice = Console.ReadLine();
             if (choice == "1")
@@ -35,6 +37,7 @@ namespace BNR_CLIENT
             {
                 Console.WriteLine("no stupid idiot go fck yourself :(");
             }
+            */
         }
     }
 }
