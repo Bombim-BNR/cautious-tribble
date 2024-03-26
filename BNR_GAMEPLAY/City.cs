@@ -61,11 +61,11 @@ namespace BNR_GAMEPLAY
             {
                 victim.Owner = Owner;
                 victim.Army = Math.Abs(Army);
-                CurrentLevel.Up(CurrentLevel.Value * EXP_PER_OCCUPATION);
+                CurrentLevel.Value += EXP_PER_OCCUPATION;
             }
             else
             {
-                CurrentLevel.Up(CurrentLevel.Value * EXP_PER_ATTACK);
+                CurrentLevel.Value += EXP_PER_ATTACK;
             }
         }
 
