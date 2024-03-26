@@ -47,7 +47,7 @@ namespace BNR_GAMEPLAY
                 {
                     throw new DataException("Hash is empty");
                 }
-                return VerifyHashedPassword(hashedPassword, password);
+                return VerifyHash(hashedPassword, password);
             }
         }
 
@@ -57,7 +57,7 @@ namespace BNR_GAMEPLAY
             return Convert.ToBase64String(hashedBytes);
         }
 
-        private bool VerifyHashedPassword(string hashedPassword, string password)
+        private bool VerifyHash(string hashedPassword, string password)
         {
             byte[] hashedBytes = Convert.FromBase64String(hashedPassword);
             byte[] inputBytes = sha512.ComputeHash(Encoding.UTF8.GetBytes(password));
