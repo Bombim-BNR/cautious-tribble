@@ -97,7 +97,7 @@ namespace BNR_GAMEPLAY
             {
                 SelectCityWithName(tokens[0]).Transport(SelectCityWithName(tokens[2]));
             }
-#pragma warning disable CS8602, CS8604
+#pragma warning restore CS8602, CS8604
 
             await Adapter.UpdateMapNYT();
         }
