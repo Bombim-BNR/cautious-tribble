@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,16 @@ namespace BNR_GAMEPLAY
     {
         private readonly string connectionString;
         private readonly SHA512 sha512;
+
+        public static PlayerRepository LoadFromJson(ConfigManager json)
+        {
+            //.\SQLEXPRESS
+            //GameData
+            
+            json.Load();
+            string connectString = @$"Data Source={json["Data Source"]};Initial Catalog={json["Initial Catalog"]};Integrated Security=True";
+            return new PlayerRepository(connectString);
+        }
 
         public PlayerRepository(string connectionString)
         {

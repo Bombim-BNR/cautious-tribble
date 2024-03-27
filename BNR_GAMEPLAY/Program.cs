@@ -8,7 +8,11 @@ namespace BNR
     {
         public static async Task Main(string[] args)
         {
-            PlayerRepository playerRepository = new(@"Data Source=.\SQLEXPRESS;Initial Catalog=GameData;Integrated Security=True");
+            var json = new ConfigManager("config.json");
+/*            json.UpdateOrAdd("Data Source", @".\SQLEXPRESS");
+            json.UpdateOrAdd("Initial Catalog", @"GameData");
+            json.Save();*/
+            PlayerRepository playerRepository = PlayerRepository.LoadFromJson(json);
 
             // Initialize levels for cities and players
             Level cityLevel1 = new Level(1000);
