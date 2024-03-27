@@ -3,22 +3,33 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using BNR_GAMEPLAY;
+using Newtonsoft.Json; // Ensure you have Newtonsoft.Json installed for serialization
+
 
 public class Client
 {
     private TcpClient tcpClient;
     private NetworkStream stream;
-    private Game _game;
+    private Game? _game;
+    public List<string> List;
 
-    public async Task ConnectToServer(string hostname, int port, Game game)
+    public Action<object, List<string>> PlayerListUpdated { get; set; }
+
+    public async Task ConnectToServer(string hostname, int port, Game? game, List<string> list)
     {
         tcpClient = new TcpClient();
         await tcpClient.ConnectAsync("127.0.0.1", port);
         stream = tcpClient.GetStream();
 
         _game = game;
+        List = list;
         
         await StartReceiving();
+    }
+
+    public void ChangeMap(Game game)
+    {
+        _game = game;
     }
 
     private async Task StartReceiving()
@@ -38,7 +49,7 @@ public class Client
         }
     }
 
-    private async Task SendMessage(string message)
+    public async Task SendMessage(string message)
     {
         byte[] buffer = Encoding.ASCII.GetBytes(message);
         await stream.WriteAsync(buffer, 0, buffer.Length);
@@ -51,9 +62,22 @@ public class Client
         return Encoding.ASCII.GetString(buffer, 0, bytesRead);
     }
 
+    public void UpdatePlayersList(List<string> with)
+    {
+        List = with;
+        PlayerListUpdated?.Invoke(this, with); // Raise the event
+    }
+
     private async Task<string> ProcessMessageAsync(string message)
     {
-        if (message == "turn")
+        if (message.StartsWith("playersUpdate:"))
+        {
+            var playersListJson = message.Substring("playersUpdate:".Length);
+            var playersList = JsonConvert.DeserializeObject<List<string>>(playersListJson);
+            UpdatePlayersList(playersList);
+            return "+";
+        }
+        else if (message == "turn")
         {
             string move = await _game.TurnAsync();
             return move;

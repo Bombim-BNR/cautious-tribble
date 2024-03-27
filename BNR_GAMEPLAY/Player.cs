@@ -14,6 +14,8 @@ namespace BNR_GAMEPLAY
         private Game? CurrentGame;
         public List<City>? AvaibleCities => CurrentGame?.Cities.Where(city => city.Owner.Equals(this)) as List<City>;
 
+        public int ID { get; set; }
+
         public Player(int id, string name, int score, Level level)
         {
             Id = id;

@@ -1,36 +1,82 @@
-﻿using BNR_GAMEPLAY;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using BNR_GAMEPLAY;
+using Newtonsoft.Json;
 
 public class Server
 {
     private TcpListener tcpListener;
     private List<TcpClient> clients = new List<TcpClient>();
     private bool gameInProgress = false;
-    private Game _game;
+    private Game? _game;
+    private List<Player> _players = new List<Player>();
 
-    public async Task StartServer(int port, Game game)
+    public async Task StartServer(int port, Game? game)
     {
         _game = game;
 
-        tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
-        tcpListener.Start();
+        // This will listen on all network interfaces
+        tcpListener = new TcpListener(IPAddress.Any, port);
 
-        AcceptClients();
-        Console.WriteLine("Server started...");
+        try
+        {
+            tcpListener.Start();
+            Console.WriteLine("Server started...");
+            await AcceptClients();
+        }
+        catch (SocketException ex)
+        {
+            Console.WriteLine($"SocketException: {ex.Message}");
+            // Handle further, maybe retry with a different port or log the error.
+        }
     }
 
-    private async void AcceptClients()
+
+    private async Task AcceptClients()
     {
         while (!gameInProgress)
         {
             TcpClient newClient = await tcpListener.AcceptTcpClientAsync();
             clients.Add(newClient);
-            Console.WriteLine("New client connected.");
+            ProcessClient(newClient);
+        }
+    }
+
+    private async void ProcessClient(TcpClient client)
+    {
+        NetworkStream stream = client.GetStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+        {
+            string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+            await ProcessMessageAsync(client, message);
+        }
+    }
+
+    private async Task ProcessMessageAsync(TcpClient client, string message)
+    {
+        if (message.StartsWith("newPlayer:"))
+        {
+            var playerInfoJson = message.Substring("newPlayer:".Length);
+            Player newPlayer = JsonConvert.DeserializeObject<Player>(playerInfoJson);
+            _players.Add(newPlayer);
+
+            await NotifyPlayersListUpdated();
+        }
+    }
+
+    private async Task NotifyPlayersListUpdated()
+    {
+        var playerList = JsonConvert.SerializeObject(_players);
+        foreach (var client in clients)
+        {
+            await SendMessageAndGetResponse(client, $"playersUpdate:{playerList}");
         }
     }
 

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="gdata\images\Background.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BNR_GAMEPLAY\BNR_GAMEPLAY.csproj" />
+    <ProjectReference Include="..\BNR__CLIENT\BNR__CLIENT.csproj" />
+    <ProjectReference Include="..\Server\BNR_SERVER.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="gdata\images\Background.png" />
+  </ItemGroup>
+
+</Project>

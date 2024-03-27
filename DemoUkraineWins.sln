@@ -19,11 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BNR_CLIENT", "BNR_CLIENT\BN
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BNR__CLIENT", "BNR__CLIENT\BNR__CLIENT.csproj", "{64F683C2-11B3-49BF-80DF-A5BFD0F9042A}"
-<<<<<<< HEAD
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualInterpretation", "VisualInterpretation\VisualInterpretation.csproj", "{2697B053-2E0C-4241-B80D-41681C90BC5E}"
-=======
->>>>>>> DataStorage
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFFrontEnd", "WPFFrontEnd\WPFFrontEnd.csproj", "{850844C6-2EA6-4EC5-81AC-4E3C584CD0C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +48,10 @@ Global
 		{64F683C2-11B3-49BF-80DF-A5BFD0F9042A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64F683C2-11B3-49BF-80DF-A5BFD0F9042A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64F683C2-11B3-49BF-80DF-A5BFD0F9042A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2697B053-2E0C-4241-B80D-41681C90BC5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2697B053-2E0C-4241-B80D-41681C90BC5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2697B053-2E0C-4241-B80D-41681C90BC5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2697B053-2E0C-4241-B80D-41681C90BC5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{850844C6-2EA6-4EC5-81AC-4E3C584CD0C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{850844C6-2EA6-4EC5-81AC-4E3C584CD0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{850844C6-2EA6-4EC5-81AC-4E3C584CD0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{850844C6-2EA6-4EC5-81AC-4E3C584CD0C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
