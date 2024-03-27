@@ -41,7 +41,7 @@ namespace WPFFrontEnd
                 try
                 {
                     Random random = new Random();
-                    Player player = new Player(random.Next(1000000), "Counrty Null", 0, new Level(1));
+                    Player player = new Player(IdProvider.Id, "Counrty Null", 0, new Level(1));
                     await playerRepo.SavePlayer(player, UsernameText.Text, PasswordText.Text);
                     player = await playerRepo.LoadPlayer(UsernameText.Text, PasswordText.Text);
                     Connector.MyClient = new Client();
